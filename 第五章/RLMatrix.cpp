@@ -23,6 +23,7 @@ void CreateSMatrix(RLSMatrix &M)
 		scanf("%d%d%d", M.data[i].i, M.data[i].j, M.data[i].e.tp);
 	}
 	//init rpot集合
+	//这是注释
 	initrpot(M);
 	return;
 }
