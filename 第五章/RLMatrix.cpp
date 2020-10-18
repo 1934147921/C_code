@@ -1,6 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "RLSMatrix.h"
+
+
 //void CreateSMatrix(RLSMatrix &M);
 //Status DestroySMatrix(RLSMatrix &M);
 //Status CopySMatrix(RLSMatrix M, RLSMatrix &T);

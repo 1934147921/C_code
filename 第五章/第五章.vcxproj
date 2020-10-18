@@ -116,11 +116,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CrossList.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RLMatrix.cpp" />
     <ClCompile Include="SMatrix.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CrossList.h" />
     <ClInclude Include="RLSMatrix.h" />
     <ClInclude Include="SMatrix.h" />
   </ItemGroup>

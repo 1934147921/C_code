@@ -3,6 +3,7 @@
 #define OK 1;
 #define ERROR 0;
 typedef int Status;
+
 typedef struct {
 	int tp;
 }ElemType;

@@ -24,6 +24,9 @@
     <ClCompile Include="RLMatrix.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="CrossList.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SMatrix.h">
@@ -31,6 +34,9 @@
     </ClInclude>
     <ClInclude Include="RLSMatrix.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CrossList.h">
+      <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
