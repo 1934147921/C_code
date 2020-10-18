@@ -13,22 +13,24 @@ Status CreateSMatrix(pCrossList &M)
 	data.down = NULL;
 	data.right = NULL;
 
-	printf("请输出行号、列号和值：\n:");
+	printf("请输出行数、列数和非零值个数:");
 	scanf("%d%d%d", &m, &n, &t);
 	M->mu = m; M->nu = n; M->tu = t;
 	
-	//给列表头链表初始化
+	//给列表头链表开辟空间
 	M->chead = (pOLNde)malloc(sizeof(OLNode)*(m + 1));
 	if (!M->rhead) exit(0);
 	
-	//给行表头链表初始化
+	//给行表头链表开辟空间
 	M->rhead = (pOLNde)malloc(sizeof(OLNode)*(m + 1));
 	if (!M->rhead) exit(0);
 	
-	//给行表头链表制NULL
+	//给行表头结点制NULL
 	for (int i = 0; i <= n; i++)
 	{
 		pOLNde h = (pOLNde)malloc(sizeof(OLNode));
+		h->i = i;
+		h->j = 0;
 		h->right = NULL;
 		h->down = NULL;
 		M->rhead[i].right = h;
@@ -38,9 +40,16 @@ Status CreateSMatrix(pCrossList &M)
 	for (int i = 0; i <=m; i++)
 		M->chead[i].down = NULL;
 	
+	pOLNde Mh = M->chead[0].down;
+	for (int i = 0; i <= n; i++)
+	{
+		pOLNde Nh = M->rhead[i].down;
+		Mh->down = Nh;
+		Mh = Nh;
+	}
 	//pOLNde 
 
-	printf("请输出行号、列号和值：\n:");
+	printf("请输出行号、列号和值:");
 	scanf("%d%d%d", &data.i, &data.j, &data.e.tp);
 
 	for (int c = 1; c <= t; c++)
@@ -51,17 +60,54 @@ Status CreateSMatrix(pCrossList &M)
 		p->i = data.i; p->j = data.j; p->e = data.e;
 		p->down = NULL;
 		p->right = NULL;
-		if (M->rhead[data.i].right == NULL)
-			M->rhead[data.i].right = p;
+		pOLNde Nh = M->rhead[data.i].right;
+		if (Nh->right == NULL)
+			Nh->right = p;
 		else
 		{
 			pOLNde q;
 			q = M->rhead[data.i].right;
-			for (; q&&q->right->j < data.j; q = q->right);
+			for (; q->right && q->right->j < data.j; q = q->right);
 			p->right = q->right;
 			q->right = p;
 		}//完成行插入
-
-			
+		//链接列的结点
+		Mh = M->chead[data.j].down;
+		if (Mh->down == NULL)
+			Mh->down = p;
+		else
+		{
+			pOLNde q;
+			q = M->chead[data.j].down;
+			for (; q->down && q->down->i < data.i; q = q->down);
+			p->down = q->down;
+			q->down = p->down;
+		}//完成列插入
+		printf("请输出行号、列号和值:");
+		scanf("%d%d%d", &data.i, &data.j, &data.e.tp);
 	}
+	return OK;
+}
+Status PrintCrossList(CrossList &M)
+{
+	ElemType *data;
+	for (int col = 0; col < M.nu; col++)
+		data[col].tp = 0;
+	data = (ElemType *)malloc(sizeof(ElemType)*(M.nu));
+	for (int i = 1; i <= M.mu; i++)
+	{
+		pOLNde pre = M.rhead[i].right->right;
+		while (pre)
+		{
+			data[pre->j] = pre->e;
+			pre = pre->right;
+		}
+		for (int j = 1; j <= M.nu; j++)
+		{
+			printf("%d\t", data[j].tp);
+			if (!data[j].tp) data[j].tp = 0;
+		}
+		printf("\n");
+	}
+	return OK;
 }
