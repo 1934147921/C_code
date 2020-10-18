@@ -37,6 +37,7 @@ Status initrpot(RLSMatrix &M)
 		num[M.data[i].i]++;
 	for (int i = 1; i <= M.mu; i++)
 		M.rpot[i] = M.rpot[i - 1] + num[i - 1];
+	return OK;
 }
 Status MultSMatrix(RLSMatrix M, RLSMatrix N, RLSMatrix &Q)
 {
@@ -85,5 +86,5 @@ Status MultSMatrix(RLSMatrix M, RLSMatrix N, RLSMatrix &Q)
 			}//for ccol
 		}//for
 	}//if
-	return;
+	return OK;
 }

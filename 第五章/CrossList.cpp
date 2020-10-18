@@ -5,50 +5,62 @@
 //Status CreateSMatrix(CrossList &M);
 //Status AddCrossList(CrossList &M, CrossList N);
 
-Status CreateSMatrix(pCrossList &M)
+Status CreateSMatrix(CrossList &M)
 {
-	if (M) free(M);
-	int m, n, t;
+	
+	int m = 3, n = 4, t = 4;
 	OLNode data;
 	data.down = NULL;
 	data.right = NULL;
 
 	printf("请输出行数、列数和非零值个数:");
-	scanf("%d%d%d", &m, &n, &t);
-	M->mu = m; M->nu = n; M->tu = t;
+	//scanf("%d%d%d", &m, &n, &t);
+	M.mu = m; M.nu = n; M.tu = t;
 	
 	//给列表头链表开辟空间
-	M->chead = (pOLNde)malloc(sizeof(OLNode)*(m + 1));
-	if (!M->rhead) exit(0);
+	M.chead = (pOLNde)malloc(sizeof(OLNode)*(m + 1));
+	if (!M.rhead) exit(0);
 	
 	//给行表头链表开辟空间
-	M->rhead = (pOLNde)malloc(sizeof(OLNode)*(m + 1));
-	if (!M->rhead) exit(0);
+	M.rhead = (pOLNde)malloc(sizeof(OLNode)*(m + 1));
+	if (!M.rhead) exit(0);
 	
 	//给行表头结点制NULL
-	for (int i = 0; i <= n; i++)
+	for (int i = 0; i <= m; i++)
 	{
 		pOLNde h = (pOLNde)malloc(sizeof(OLNode));
 		h->i = i;
 		h->j = 0;
 		h->right = NULL;
 		h->down = NULL;
-		M->rhead[i].right = h;
+		M.rhead[i].right = h;
 	}
-
-	//给列表头链表制NULL
-	for (int i = 0; i <=m; i++)
-		M->chead[i].down = NULL;
 	
-	pOLNde Mh = M->chead[0].down;
+	
+	//给列表头链表制NULL
 	for (int i = 0; i <= n; i++)
 	{
-		pOLNde Nh = M->rhead[i].down;
-		Mh->down = Nh;
-		Mh = Nh;
+		pOLNde h = (pOLNde)malloc(sizeof(OLNode));
+		h->i = 0;
+		h->j = i;
+		h->right = NULL;
+		h->down = NULL;
+		M.chead[i].down = h;
 	}
-	//pOLNde 
-
+	
+	pOLNde Mh = (pOLNde)malloc(sizeof(OLNode));
+	Mh->down = NULL;
+	pOLNde fh = Mh;
+	for (int i = 0; i <= n; i++)
+	{
+		pOLNde Nh = M.rhead[i].right;
+		Mh->down = Nh;
+		if (i == n)
+			Mh->down = NULL;
+		else
+			Mh = Nh;
+	}
+	M.chead[0].down = fh->down;
 	printf("请输出行号、列号和值:");
 	scanf("%d%d%d", &data.i, &data.j, &data.e.tp);
 
@@ -60,25 +72,26 @@ Status CreateSMatrix(pCrossList &M)
 		p->i = data.i; p->j = data.j; p->e = data.e;
 		p->down = NULL;
 		p->right = NULL;
-		pOLNde Nh = M->rhead[data.i].right;
+		pOLNde Nh = M.rhead[data.i].right;
 		if (Nh->right == NULL)
 			Nh->right = p;
 		else
 		{
 			pOLNde q;
-			q = M->rhead[data.i].right;
+			q = M.rhead[data.i].right;
 			for (; q->right && q->right->j < data.j; q = q->right);
 			p->right = q->right;
 			q->right = p;
 		}//完成行插入
+
 		//链接列的结点
-		Mh = M->chead[data.j].down;
+		Mh = M.chead[data.j].down;
 		if (Mh->down == NULL)
 			Mh->down = p;
 		else
 		{
 			pOLNde q;
-			q = M->chead[data.j].down;
+			q = M.chead[data.j].down;
 			for (; q->down && q->down->i < data.i; q = q->down);
 			p->down = q->down;
 			q->down = p->down;
@@ -90,7 +103,7 @@ Status CreateSMatrix(pCrossList &M)
 }
 Status PrintCrossList(CrossList &M)
 {
-	ElemType *data;
+	ElemType *data=nullptr;
 	for (int col = 0; col < M.nu; col++)
 		data[col].tp = 0;
 	data = (ElemType *)malloc(sizeof(ElemType)*(M.nu));

@@ -34,6 +34,6 @@ typedef struct {
 	int tu;
 }CrossList, *pCrossList;
 
-Status CreateSMatrix(pCrossList &M);
+Status CreateSMatrix(CrossList &M);
 Status AddCrossList(CrossList &M, CrossList N);
 Status PrintCrossList(CrossList &M);

@@ -28,7 +28,7 @@ Status DestroySMatrix(TSMatrix &M)
 		M.data[i].e.tp = 0;
 	}
 	M.tu = 0;
-	return;
+	return OK;
 }
 Status CopySMatrix(TSMatrix M, TSMatrix &T)
 {
@@ -54,7 +54,7 @@ Status PrintSMatrix(TSMatrix M)
 		}
 		printf("\n");
 	}
-	return;
+	return OK;
 }
 Status TransposeSMatrix(TSMatrix M, TSMatrix &T)
 {
